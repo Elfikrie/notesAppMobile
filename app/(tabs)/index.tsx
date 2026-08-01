@@ -1,38 +1,41 @@
+import NoteCard from "@/components/NoteCard/NoteCard";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Button from "../../components/Button/Button";
 import User from "../../components/User/User";
+import notes from "../data/notes";
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-
       <View style={styles.header}>
         <Text style={styles.title}>📝 My Notes</Text>
-
-        <View style={styles.navMenu}>
-          {menus.map((menu)=> (
-            <Text key={menu} style={styles.navigation}>{menu}</Text> 
-          ))}
+        <View style={{ flexDirection: "row" }}>
+            <Button title="Login" link="/modal" />
+            <Button title="Register" link="/layout" />
         </View>
+              
+        {/* <View style={styles.navMenu}>
+          {menus.map((menu) => (
+            <Text key={menu} style={styles.navigation}>
+              {menu}
+            </Text>
+          ))}
+        </View> */}
       </View>
 
       <User nama="Muhammad Fikrie" />
 
-      <Button title="+ Tambah Catatan" />
-      <Button title="Login" />
-      <Button title="Register" />
+      {notes.map((note) => (
+        <NoteCard key={note.id} title={note.title} content={note.content} />
+      ))}
 
+      <Button title="+ Tambah Catatan" link="/layout" />
     </View>
   );
 }
 
-const menus = [
-  "Home",
-  "Notes",
-  "Profile",
-  "Settings",
-]
+const menus = ["Home", "Notes", "Profile", "Settings"];
 
 const styles = StyleSheet.create({
   container: {

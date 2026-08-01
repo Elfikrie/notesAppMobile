@@ -1,10 +1,14 @@
-import { Pressable, Text, StyleSheet } from "react-native";
+// import { Link } from "@/.expo/types/router";
+import { Link } from "expo-router";
+import { Pressable, StyleSheet, Text } from "react-native";
 
-export default function Button({title}) {
+export default function Button({ title, link }) {
   return (
-    <Pressable style={styles.button}>
-      <Text style={styles.text}>{title}</Text>
-    </Pressable>
+    <Link href={link} asChild>
+      <Pressable style={styles.button}>
+        <Text style={styles.text}>{title}</Text>
+      </Pressable>
+    </Link>
   );
 }
 
@@ -14,6 +18,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     marginBottom: 20,
+    marginRight:10
   },
   text: {
     color: "white",

@@ -2,7 +2,7 @@ import { Pressable, Text, StyleSheet } from "react-native";
 
 export default function User({nama}) {
   return (
-      <Text style={styles.text}>Selamat datang {nama} di Notes mu</Text>
+      <Text style={styles.text}>Selamat datang {nama} di Notes</Text>
   );
 }
 
