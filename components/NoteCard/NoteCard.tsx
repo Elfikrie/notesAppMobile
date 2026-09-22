@@ -1,51 +1,59 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 
 type NoteCardProps = {
+  id: number;
   title: string;
   content: string;
+  onPress: () => void;
 };
 
-export default function NoteCard({ title, content }: NoteCardProps) {
+export default function NoteCard({
+  title,
+  content,
+  onPress,
+}: NoteCardProps) {
   return (
-    <View style={styles.card}>
+    <Pressable
+      style={styles.card}
+      onPress={onPress}
+    >
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.content}>{content}</Text>
-    </View>
+
+      <Text
+        style={styles.content}
+        numberOfLines={2}
+      >
+        {content}
+      </Text>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    width: "100%",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
     padding: 16,
-    borderRadius: 12,
-    marginBottom: 16,
+    marginBottom: 12,
+    elevation: 3,
 
-    // Shadow iOS
-    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
 
-    // Shadow Android
-    elevation: 4,
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
 
   title: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: "#111827",
+    fontWeight: "700",
     marginBottom: 8,
   },
 
   content: {
-    fontSize: 15,
-    color: "#6B7280",
-    lineHeight: 22,
+    fontSize: 14,
+    lineHeight: 20,
   },
 });

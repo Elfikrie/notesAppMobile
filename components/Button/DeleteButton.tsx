@@ -1,20 +1,20 @@
 import { Pressable,StyleSheet, Text, } from "react-native";
 
-type ButtonProps = {
+type DeleteButtonProps = {
   title: string;
   onPress: () => void;
 };
 
-export default function Button({
+export default function DeleteButton({
   title,
   onPress,
-}: ButtonProps) {
+}: DeleteButtonProps) {
   return (
     <Pressable
-      style={styles.button}
+      style={styles.deleteButton}
       onPress={onPress}
     >
-      <Text style={styles.text}>
+      <Text style={styles.deleteButtonText}>
         {title}
       </Text>
     </Pressable>
@@ -22,16 +22,18 @@ export default function Button({
 }
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: "#007AFF",
-    paddingVertical: 16,
+  deleteButton: {
+    marginTop: 12,
+    paddingVertical: 15,
     borderRadius: 12,
     alignItems: "center",
-  },
+    borderWidth: 1,
+    borderColor: "#cc0000",
+    },
 
-  text: {
-    color: "#fff",
+    deleteButtonText: {
     fontSize: 16,
     fontWeight: "700",
-  },
+    color: "#cc0000",
+    },
 });

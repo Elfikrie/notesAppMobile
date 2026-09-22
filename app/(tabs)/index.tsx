@@ -1,75 +1,82 @@
+import AddButton from "@/components/AddButton/AddButton";
 import NoteCard from "@/components/NoteCard/NoteCard";
-import React from "react";
+import SearchBar from "@/components/SearchBar/SearchBar";
+import { useNotes } from "../../context/NotesContext";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Button from "../../components/Button/Button";
-import User from "../../components/User/User";
-import notes from "../data/notes";
 
 export default function HomeScreen() {
+  const router = useRouter(); 
+
+  const { notes, loading, error } = useNotes();
+
+  const [search, setSearch] = useState("");
+
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(search.toLowerCase()),
+  );
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>📝 My Notes</Text>
-        <View style={{ flexDirection: "row" }}>
-            <Button title="Login" link="/modal" />
-            <Button title="Register" link="/layout" />
-        </View>
-              
-        {/* <View style={styles.navMenu}>
-          {menus.map((menu) => (
-            <Text key={menu} style={styles.navigation}>
-              {menu}
-            </Text>
+      <Text style={styles.title}>My Notes</Text>
+
+      <Text style={styles.subtitle}>Your personal notes</Text>
+
+      <SearchBar value={search} onChangeText={setSearch} />
+
+      <View style={styles.noteList}>
+        {loading && (
+          <Text>Memuat catatan...</Text>
+        )}
+
+        {error && (
+          <Text>{error}</Text>
+        )}
+
+        {!loading &&
+          !error &&
+          filteredNotes.map((note) => (
+            <NoteCard
+              key={note.id}
+              id={note.id}
+              title={note.title}
+              content={note.content}
+              onPress={() =>
+                router.push(`/note/${note.id}`)
+              }
+            />
           ))}
-        </View> */}
       </View>
 
-      <User nama="Muhammad Fikrie" />
-
-      {notes.map((note) => (
-        <NoteCard key={note.id} title={note.title} content={note.content} />
-      ))}
-
-      <Button title="+ Tambah Catatan" link="/layout" />
+      <AddButton
+        onPress={() => {
+          router.push("/add-note");
+        }}
+      />
     </View>
   );
 }
 
-const menus = ["Home", "Notes", "Profile", "Settings"];
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#f5f5f5",
     padding: 20,
-    backgroundColor: "#000",
-  },
-
-  header: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 30,
-  },
-
-  navMenu: {
-    flexDirection: "row",
-  },
-
-  navigation: {
-    color: "#fff",
-    marginHorizontal: 10,
   },
 
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#fff",
+    fontSize: 32,
+    fontWeight: "700",
   },
 
   subtitle: {
-    fontSize: 24,
-    color: "#ddd",
-    marginBottom: 30,
+    fontSize: 16,
+    marginTop: 6,
+    marginBottom: 24,
+  },
+
+  noteList: {
+    marginTop: 10,
   },
 });
