@@ -4,6 +4,7 @@ export type Note = {
   id: number;
   title: string;
   content: string;
+  created_at: string;
 };
 
 export async function getNotes(
@@ -17,12 +18,16 @@ export async function getNotes(
 export async function createNote(
   db: SQLiteDatabase,
   title: string,
-  content: string
+  content: string,
+
 ) {
+  const createdAt = new Date().toISOString();
+
   await db.runAsync(
-    "INSERT INTO notes (title, content) VALUES (?, ?)",
+    "INSERT INTO notes (title, content, created_at) VALUES (?, ?, ?)",
     title,
-    content
+    content,
+    createdAt
   );
 }
 
@@ -30,7 +35,8 @@ export async function updateNote(
   db: SQLiteDatabase,
   id: number,
   title: string,
-  content: string
+  content: string,
+  // created_at: string,
 ) {
   await db.runAsync(
     "UPDATE notes SET title = ?, content = ? WHERE id = ?",

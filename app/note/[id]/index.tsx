@@ -47,10 +47,20 @@ export default function NoteDetailScreen() {
     );
   }
 
+  function formatDate(date: string) {
+    return new Intl.DateTimeFormat("id-ID", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(new Date(date));
+  }
+
   return (
-    <View style={styles.container}>
+    <View style={styles.container} >
       <Text style={styles.title}>
-        {note.title}
+        {note.title}, {'\n'}<Text style={styles.date}>
+        {formatDate(note.created_at)}
+      </Text>
       </Text>
 
       <Text style={styles.content}>
@@ -95,6 +105,9 @@ const styles = StyleSheet.create({
   content: {
     fontSize: 17,
     lineHeight: 26,
+    marginBottom: 20,
+    backgroundColor: "#fff",
+    padding: 15
   },
 
   button: {
@@ -124,5 +137,11 @@ deleteButtonText: {
   fontSize: 16,
   fontWeight: "700",
   color: "#cc0000",
+},
+
+date: {
+  fontSize: 13,
+  marginBottom: 20,
+  color: '#aaa'
 },
 });

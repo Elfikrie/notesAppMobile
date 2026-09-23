@@ -4,20 +4,34 @@ type NoteCardProps = {
   id: number;
   title: string;
   content: string;
+  created_at: string;
   onPress: () => void;
 };
 
 export default function NoteCard({
   title,
   content,
+  created_at,
   onPress,
 }: NoteCardProps) {
+
+function formatDate(date: string) {
+  return new Intl.DateTimeFormat("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(date));
+}
   return (
+
     <Pressable
       style={styles.card}
       onPress={onPress}
     >
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{title}{'\n'}<Text style={styles.date}>
+          {formatDate(created_at)}
+      </Text></Text>
+      
 
       <Text
         style={styles.content}
@@ -55,5 +69,10 @@ const styles = StyleSheet.create({
   content: {
     fontSize: 14,
     lineHeight: 20,
+  },
+  date: {
+    fontSize: 12,
+    marginTop: 0,
+    color: "#aaa"
   },
 });
