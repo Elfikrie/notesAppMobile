@@ -1,18 +1,15 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { Alert, Pressable, StyleSheet, Text, View, } from "react-native";
-import { useNotes } from "../../../context/NotesContext";
+import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import Button from "../../../components/Button/Button";
 import DeleteButton from "../../../components/Button/DeleteButton";
-
+import { useNotes } from "../../../context/NotesContext";
 
 export default function NoteDetailScreen() {
   const { id } = useLocalSearchParams();
 
   const { notes, deleteNote } = useNotes();
 
-  const note = notes.find(
-    (item) => item.id.toString() === id
-  );
+  const note = notes.find((item) => item.id.toString() === id);
 
   if (!note) {
     return (
@@ -43,7 +40,7 @@ export default function NoteDetailScreen() {
             router.back();
           },
         },
-      ]
+      ],
     );
   }
 
@@ -56,16 +53,14 @@ export default function NoteDetailScreen() {
   }
 
   return (
-    <View style={styles.container} >
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>
-        {note.title}, {'\n'}<Text style={styles.date}>
-        {formatDate(note.created_at)}
-      </Text>
+        {note.title}
+        {"\n"}
+        <Text style={styles.date}>{formatDate(note.created_at)}</Text>
       </Text>
 
-      <Text style={styles.content}>
-        {note.content}
-      </Text>
+      <Text style={styles.content}>{note.content}</Text>
 
       {/* <Pressable
         style={styles.button}
@@ -75,7 +70,10 @@ export default function NoteDetailScreen() {
           Edit Note
         </Text>
       </Pressable> */}
-      <Button title="Edit Note"  onPress={() => router.push(`/note/${id}/edit`)} />
+      <Button
+        title="Edit Note"
+        onPress={() => router.push(`/note/${id}/edit`)}
+      />
       <DeleteButton title="Hapus Note" onPress={handleDelete} />
       {/* <Pressable
           style={styles.deleteButton}
@@ -85,13 +83,13 @@ export default function NoteDetailScreen() {
             Hapus Note
           </Text>
         </Pressable> */}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 20,
     backgroundColor: "#f5f5f5",
   },
@@ -107,7 +105,7 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     marginBottom: 20,
     backgroundColor: "#fff",
-    padding: 15
+    padding: 15,
   },
 
   button: {
@@ -125,23 +123,23 @@ const styles = StyleSheet.create({
   },
 
   deleteButton: {
-  marginTop: 12,
-  paddingVertical: 15,
-  borderRadius: 12,
-  alignItems: "center",
-  borderWidth: 1,
-  borderColor: "#cc0000",
-},
+    marginTop: 12,
+    paddingVertical: 15,
+    borderRadius: 12,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#cc0000",
+  },
 
-deleteButtonText: {
-  fontSize: 16,
-  fontWeight: "700",
-  color: "#cc0000",
-},
+  deleteButtonText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#cc0000",
+  },
 
-date: {
-  fontSize: 13,
-  marginBottom: 20,
-  color: '#aaa'
-},
+  date: {
+    fontSize: 13,
+    marginBottom: 20,
+    color: "#aaa",
+  },
 });

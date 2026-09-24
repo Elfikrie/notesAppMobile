@@ -4,7 +4,7 @@ import SearchBar from "@/components/SearchBar/SearchBar";
 import { useNotes } from "../../context/NotesContext";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 
 export default function HomeScreen() {
   const router = useRouter(); 
@@ -18,52 +18,55 @@ export default function HomeScreen() {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>My Notes</Text>
+    <View style={styles.screen}>
+      
+        <Text style={styles.title}>My Notes</Text>
 
-      <Text style={styles.subtitle}>Your personal notes</Text>
+        <Text style={styles.subtitle}>Your personal notes</Text>
 
-      <SearchBar value={search} onChangeText={setSearch} />
+        <SearchBar value={search} onChangeText={setSearch} />
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+        <View style={styles.noteList}>
+          {loading && (
+            <Text>Memuat catatan...</Text>
+          )}
 
-      <View style={styles.noteList}>
-        {loading && (
-          <Text>Memuat catatan...</Text>
-        )}
+          {error && (
+            <Text>{error}</Text>
+          )}
 
-        {error && (
-          <Text>{error}</Text>
-        )}
-
-        {!loading &&
-          !error &&
-          filteredNotes.map((note) => (
-            <NoteCard
-              key={note.id}
-              id={note.id}
-              title={note.title}
-              content={note.content}
-              created_at={note.created_at}
-              onPress={() =>
-                router.push(`/note/${note.id}`)
-              }
-            />
-          ))}
-      </View>
-
-      <AddButton
-        onPress={() => {
-          router.push("/add-note");
-        }}
-      />
+          {!loading &&
+            !error &&
+            filteredNotes.map((note) => (
+              <NoteCard
+                key={note.id}
+                id={note.id}
+                title={note.title}
+                content={note.content}
+                created_at={note.created_at}
+                onPress={() =>
+                  router.push(`/note/${note.id}`)
+                }
+              />
+            ))}
+        </View>
+      </ScrollView>
+        <AddButton onPress={() => {router.push("/add-note");}}/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  screen: {
     flex: 1,
     backgroundColor: "#f5f5f5",
-    padding: 20,
+    padding: 20
+  },
+
+  container: {
+    flexGrow: 1,
+    backgroundColor: "#f5f5f5",
+    // padding: 20,
   },
 
   title: {

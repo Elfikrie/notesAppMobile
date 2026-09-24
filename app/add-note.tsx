@@ -101,6 +101,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // elevation: 1
     backgroundColor: "#007BFF",
+    position: "absolute",
+    bottom: 24,
+    right:24,
   },
 
   buttonText: {
